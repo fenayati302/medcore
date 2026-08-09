@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MedCore Technology | Unified Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              medcore: {
+                primary: "#f97316", // Orange (Core Brand)
+                dark: "#020617", // Deep Navy
+                card: "#0f172a", // Card Navy
+                text: "#94a3b8", // Slate
+              },
+              health: "#0ea5e9", // Blue
+              energy: "#22c55e", // Green
+              finance: "#f59e0b", // Gold
+              lab: "#d946ef", // Purple
+            },
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        background-color: #020617;
+        color: #ffffff;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #ffffff 0%, #f97316 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .hero-glow {
+        background: radial-gradient(
+          circle at center,
+          rgba(249, 115, 22, 0.1) 0%,
+          transparent 60%
+        );
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      }
+      .logo-fill {
+        fill: #f97316;
+      }
+      #investorModal.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #investorModal:not(.hidden) {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      #investorModal {
+        transition: opacity 0.3s ease-in-out;
+      }
+    </style>
+  </head>
+  <body
+    class="antialiased font-body selection:bg-medcore-primary selection:text-white"
+  >
+    <nav
+      class="fixed w-full z-50 top-0 bg-medcore-dark/90 backdrop-blur-md border-b border-white/5"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <div
+          class="flex items-center gap-3 cursor-pointer"
+          onclick="window.scrollTo(0,0)"
+        >
+          <svg width="42" height="42" viewBox="0 0 100 100" fill="none">
+            <path
+              d="M25 5 L45 15 V35 L25 45 L5 35 V15 L25 5Z"
+              class="logo-fill"
+            />
+            <path
+              d="M70 5 L90 15 V35 L70 45 L50 35 V15 L70 5Z"
+              class="logo-fill"
+            />
+            <path
+              d="M47.5 50 L67.5 60 V80 L47.5 90 L27.5 80 V60 L47.5 50Z"
+              class="logo-fill"
+            />
+          </svg>
+          <div class="flex flex-col">
+            <span
+              class="text-lg font-sans font-bold text-white tracking-tight leading-none"
+              >MedCore</span
+            >
+            <span
+              class="text-[10px] font-bold text-medcore-primary tracking-[0.2em] uppercase leading-none mt-1"
+              >TECHNOLOGY</span
+            >
+          </div>
+        </div>
+        <div
+          class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-400"
+        >
+          <a href="#about" class="hover:text-white transition-colors"
+            >Philosophy</a
+          >
+          <a href="#ecosystem" class="hover:text-white transition-colors"
+            >Ecosystem</a
+          >
+          <a href="#leadership" class="hover:text-white transition-colors"
+            >Leadership</a
+          >
+          <button
+            onclick="openModal()"
+            class="px-5 py-2.5 border border-white/10 bg-white/5 text-white rounded-full hover:bg-medcore-primary hover:border-transparent transition-all"
+          >
+            Investor Relations
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      id="investorModal"
+      class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden"
+    >
+      <div
+        class="bg-medcore-card border border-white/10 rounded-2xl w-full max-w-lg p-8 relative shadow-2xl transform transition-all scale-100"
+      >
+        <button
+          onclick="closeModal()"
+          class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+        >
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+
+        <div class="text-center mb-6">
+          <div
+            class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-medcore-primary/10 text-medcore-primary mb-4"
+          >
+            <i data-lucide="mail" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-white">Investor Relations</h3>
+          <p class="text-sm text-slate-400 mt-2">
+            Direct line to our capital allocation team.
+          </p>
+        </div>
+
+        <div id="formSuccess" class="hidden text-center py-8">
+          <div
+            class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/20 text-green-500 mb-4"
+          >
+            <i data-lucide="check-circle" class="w-8 h-8"></i>
+          </div>
+          <h4 class="text-xl font-bold text-white mb-2">Thanks!</h4>
+          <p class="text-slate-400">
+            The form was submitted successfully.<br />We will be in touch
+            shortly.
+          </p>
+          <button
+            onclick="closeModal()"
+            class="mt-6 px-6 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-all"
+          >
+            Close
+          </button>
+        </div>
+
+        <form
+          id="investorForm"
+          action="https://formspree.io/f/xzzogeqv"
+          method="POST"
+          class="space-y-4"
+        >
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                class="block text-xs font-bold text-slate-400 uppercase mb-1"
+                >Full Name</label
+              >
+              <input
+                type="text"
+                name="name"
+                required
+                class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-medcore-primary transition-colors placeholder-slate-600"
+                placeholder="John Doe"
+              />
+            </div>
+            <div>
+              <label
+                class="block text-xs font-bold text-slate-400 uppercase mb-1"
+                >Your Email</label
+              >
+              <input
+                type="email"
+                name="email"
+                required
+                class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-medcore-primary transition-colors placeholder-slate-600"
+                placeholder="john@fund.com"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-1"
+              >Subject</label
+            >
+            <select
+              name="subject"
+              class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-medcore-primary transition-colors"
+            >
+              <option value="Investment Inquiry" class="bg-medcore-card">
+                Investment Inquiry
+              </option>
+              <option value="Partnership Proposal" class="bg-medcore-card">
+                Partnership Proposal
+              </option>
+              <option value="Media Request" class="bg-medcore-card">
+                Media Request
+              </option>
+              <option value="General Inquiry" class="bg-medcore-card">
+                General Inquiry
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase mb-1"
+              >Message</label
+            >
+            <textarea
+              name="message"
+              required
+              rows="4"
+              class="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-medcore-primary transition-colors placeholder-slate-600"
+              placeholder="Briefly describe your inquiry..."
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            id="submitBtn"
+            class="w-full bg-medcore-primary text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition-all flex items-center justify-center gap-2"
+          >
+            Send Securely <i data-lucide="send" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <section
+      class="relative min-h-[85vh] flex items-center pt-20 hero-glow overflow-hidden border-b border-white/5"
+    >
+      <div
+        class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5"
+      ></div>
+      <div
+        class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center relative z-10"
+      >
+        <div class="space-y-8">
+          <div
+            class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-medcore-primary text-xs font-bold tracking-wide uppercase"
+          >
+            <span
+              class="w-2 h-2 rounded-full bg-medcore-primary animate-pulse"
+            ></span>
+            Unified Technology Holding
+          </div>
+          <h1
+            class="text-5xl lg:text-7xl font-sans font-extrabold tracking-tight leading-[1.1] text-white"
+          >
+            The Architecture of <br />
+            <span class="gradient-text">Future Systems.</span>
+          </h1>
+          <p class="text-lg text-slate-400 leading-relaxed max-w-lg">
+            MedCore Technology is a diversified venture studio. We engineer
+            autonomous ecosystems across <strong>Healthcare</strong>,
+            <strong>FinTech</strong>, and <strong>Sustainable Energy</strong>.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 pt-4">
+            <a
+              href="#ecosystem"
+              class="px-8 py-4 bg-white text-medcore-dark font-bold rounded-lg hover:bg-slate-200 transition-all text-center"
+            >
+              Explore Verticals
+            </a>
+            <a
+              href="#about"
+              class="px-8 py-4 border border-white/20 text-white font-bold rounded-lg hover:border-medcore-primary hover:text-medcore-primary transition-all text-center"
+            >
+              Our Vision
+            </a>
+          </div>
+          <div
+            class="pt-8 grid grid-cols-3 gap-6 text-slate-500 text-xs font-mono uppercase tracking-widest border-t border-white/5"
+          >
+            <div>
+              <span class="block text-2xl text-white font-sans font-bold mb-1"
+                >100%</span
+              >Proprietary IP
+            </div>
+            <div>
+              <span class="block text-2xl text-white font-sans font-bold mb-1"
+                >4</span
+              >Core Divisions
+            </div>
+            <div>
+              <span class="block text-2xl text-white font-sans font-bold mb-1"
+                >Self</span
+              >Funded Growth
+            </div>
+          </div>
+        </div>
+        <div class="relative hidden lg:block">
+          <div
+            class="relative p-12 border border-white/10 rounded-[3rem] bg-white/5 backdrop-blur-sm"
+          >
+            <div
+              class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-medcore-dark rounded-full border-4 border-medcore-primary flex flex-col items-center justify-center z-20 shadow-[0_0_60px_rgba(249,115,22,0.3)]"
+            >
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 100 100"
+                fill="none"
+                class="mb-2"
+              >
+                <path
+                  d="M25 5 L45 15 V35 L25 45 L5 35 V15 L25 5Z"
+                  class="logo-fill"
+                />
+                <path
+                  d="M70 5 L90 15 V35 L70 45 L50 35 V15 L70 5Z"
+                  class="logo-fill"
+                />
+                <path
+                  d="M47.5 50 L67.5 60 V80 L47.5 90 L27.5 80 V60 L47.5 50Z"
+                  class="logo-fill"
+                />
+              </svg>
+              <span class="font-bold text-white text-[10px] tracking-widest"
+                >MEDCORE TECH</span
+              >
+            </div>
+            <div class="grid grid-cols-2 gap-32 relative z-10">
+              <div
+                class="flex flex-col items-center gap-3 animate-[pulse_4s_infinite]"
+              >
+                <div
+                  class="w-16 h-16 bg-medcore-card border border-health rounded-2xl flex items-center justify-center text-health shadow-[0_0_15px_rgba(14,165,233,0.3)]"
+                >
+                  <i data-lucide="heart-pulse" class="w-8 h-8"></i>
+                </div>
+                <span class="text-[10px] font-bold text-health tracking-widest"
+                  >HEALTH</span
+                >
+              </div>
+              <div
+                class="flex flex-col items-center gap-3 animate-[pulse_4s_infinite_1s]"
+              >
+                <div
+                  class="w-16 h-16 bg-medcore-card border border-finance rounded-2xl flex items-center justify-center text-finance shadow-[0_0_15px_rgba(245,158,11,0.3)]"
+                >
+                  <i data-lucide="line-chart" class="w-8 h-8"></i>
+                </div>
+                <span class="text-[10px] font-bold text-finance tracking-widest"
+                  >FINANCE</span
+                >
+              </div>
+              <div
+                class="flex flex-col items-center gap-3 animate-[pulse_4s_infinite_2s]"
+              >
+                <div
+                  class="w-16 h-16 bg-medcore-card border border-energy rounded-2xl flex items-center justify-center text-energy shadow-[0_0_15px_rgba(34,197,94,0.3)]"
+                >
+                  <i data-lucide="zap" class="w-8 h-8"></i>
+                </div>
+                <span class="text-[10px] font-bold text-energy tracking-widest"
+                  >ENERGY</span
+                >
+              </div>
+              <div
+                class="flex flex-col items-center gap-3 animate-[pulse_4s_infinite_3s]"
+              >
+                <div
+                  class="w-16 h-16 bg-medcore-card border border-lab rounded-2xl flex items-center justify-center text-lab shadow-[0_0_15px_rgba(217,70,239,0.3)]"
+                >
+                  <i data-lucide="flask-conical" class="w-8 h-8"></i>
+                </div>
+                <span class="text-[10px] font-bold text-lab tracking-widest"
+                  >R&D</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="about"
+      class="py-24 bg-slate-900/50 border-b border-white/5 relative"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <div
+              class="inline-flex items-center gap-2 mb-6 text-medcore-primary font-bold text-sm tracking-widest uppercase"
+            >
+              <i data-lucide="cpu" class="w-4 h-4"></i> Operational Philosophy
+            </div>
+            <h2
+              class="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight"
+            >
+              We don't just back startups. <br />
+              <span class="text-slate-500">We compile them.</span>
+            </h2>
+            <p class="text-lg text-slate-400 leading-relaxed mb-6">
+              MedCore Technology operates on a
+              <strong>"Code-as-Equity"</strong> model. We act as the technical
+              co-founder for every venture in our portfolio.
+            </p>
+            <div
+              class="p-6 bg-medcore-card border-l-4 border-medcore-primary rounded-r-xl"
+            >
+              <p class="text-white italic text-lg">
+                "We deploy our internal engineering corps, proprietary AI
+                agents, and liquidity from
+                <span class="text-medcore-primary font-bold"
+                  >MedCore Capital</span
+                >
+                to bridge the gap between Zero and One in record time."
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-6">
+            <div
+              class="flex gap-4 items-start p-6 rounded-2xl bg-white/5 border border-white/10"
+            >
+              <div
+                class="p-3 bg-medcore-primary/20 rounded-lg text-medcore-primary"
+              >
+                <i data-lucide="git-merge" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-white text-lg">Cross-Pollination</h4>
+                <p class="text-sm text-slate-400">
+                  Health data informs our Energy sensors. Finance algorithms
+                  fund our R&D. A closed-loop ecosystem.
+                </p>
+              </div>
+            </div>
+            <div
+              class="flex gap-4 items-start p-6 rounded-2xl bg-white/5 border border-white/10"
+            >
+              <div
+                class="p-3 bg-medcore-primary/20 rounded-lg text-medcore-primary"
+              >
+                <i data-lucide="shield-check" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-white text-lg">Sovereignty</h4>
+                <p class="text-sm text-slate-400">
+                  We maintain 100% independence through our internal capital
+                  allocation strategies.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="leadership"
+      class="py-24 bg-medcore-dark relative overflow-hidden"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+          <div class="lg:col-span-4 relative group">
+            <div
+              class="absolute inset-0 bg-medcore-primary/20 rounded-3xl blur-2xl group-hover:bg-medcore-primary/40 transition-all duration-700"
+            ></div>
+            <div
+              class="relative rounded-3xl overflow-hidden border border-white/10 aspect-[4/5] bg-slate-800"
+            >
+              <img
+                src="farzad.jpg"
+                alt="Farzad Enayati"
+                class="object-cover w-full h-full opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0"
+              />
+              <div
+                class="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black/90 to-transparent"
+              >
+                <h3 class="text-2xl font-bold text-white">Farzad Enayati</h3>
+                <p
+                  class="text-medcore-primary font-mono text-xs tracking-widest uppercase"
+                >
+                  Founder & Chief Architect
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="lg:col-span-8">
+            <div
+              class="inline-flex items-center gap-2 mb-6 text-medcore-primary font-bold text-sm tracking-widest uppercase"
+            >
+              <i data-lucide="user" class="w-4 h-4"></i> Leadership
+            </div>
+            <h2
+              class="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight"
+            >
+              Built by an Engineer, <br />
+              <span class="text-slate-600">Not a Banker.</span>
+            </h2>
+            <div class="space-y-6 text-lg text-slate-400 leading-relaxed mb-8">
+              <p>
+                MedCore Technology is the result of 12+ years of
+                cross-disciplinary engineering. Farzad is a technical founder
+                who builds ecosystems where code creates equity.
+              </p>
+              <p>
+                With deep expertise spanning
+                <strong class="text-white">Clinical AI</strong>,
+                <strong class="text-white">IoT Hardware</strong>, and
+                <strong class="text-white">FinTech Systems</strong>, he
+                architects companies that solve fundamental problems with
+                autonomous precision.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <span
+                class="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-slate-300"
+                >Fractional CTO</span
+              >
+              <span
+                class="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-slate-300"
+                >AI Architecture</span
+              >
+              <span
+                class="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm text-slate-300"
+                >Hardware R&D</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="ecosystem"
+      class="py-24 bg-medcore-dark border-t border-white/5"
+    >
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20">
+          <h2
+            class="text-medcore-primary font-bold tracking-[0.2em] uppercase text-sm mb-3"
+          >
+            MedCore Tech Ecosystem
+          </h2>
+          <h3 class="text-3xl md:text-5xl font-extrabold text-white">
+            Core Divisions
+          </h3>
+        </div>
+        <div class="space-y-20">
+          <div>
+            <div
+              class="flex items-center gap-4 mb-8 border-b border-health/20 pb-4"
+            >
+              <div class="p-2 bg-health/10 rounded text-health">
+                <i data-lucide="heart-pulse" class="w-6 h-6"></i>
+              </div>
+              <h4 class="text-2xl font-bold text-white">
+                MedCore <span class="text-health">Health</span>
+              </h4>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+              <div
+                class="card-hover p-6 rounded-xl bg-white/5 border border-white/10"
+              >
+                <h5 class="text-lg font-bold text-white mb-2">AlbertAI™</h5>
+                <p class="text-slate-400 text-sm">
+                  AI platform for home health agencies. Automates scoring,
+                  compliance, and predictive care.
+                </p>
+              </div>
+              <div
+                class="card-hover p-6 rounded-xl bg-white/5 border border-white/10"
+              >
+                <h5 class="text-lg font-bold text-white mb-2">Avora360</h5>
+                <p class="text-slate-400 text-sm">
+                  Social wellness app connecting patients and caregivers in a
+                  unified loop.
+                </p>
+              </div>
+              <div
+                class="card-hover p-6 rounded-xl bg-white/5 border border-white/10"
+              >
+                <h5 class="text-lg font-bold text-white mb-2">
+                  MedCore Health
+                </h5>
+                <p class="text-slate-400 text-sm">
+                  Smart aging ecosystem with wearable fall detection and mobile
+                  lab response.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              class="flex items-center gap-4 mb-8 border-b border-finance/20 pb-4"
+            >
+              <div class="p-2 bg-finance/10 rounded text-finance">
+                <i data-lucide="line-chart" class="w-6 h-6"></i>
+              </div>
+              <h4 class="text-2xl font-bold text-white">
+                MedCore <span class="text-finance">Capital</span>
+              </h4>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div
+                class="card-hover p-8 rounded-xl bg-white/5 border border-white/10 relative overflow-hidden col-span-2"
+              >
+                <div class="absolute top-0 right-0 p-4 opacity-10 text-finance">
+                  <i data-lucide="coins" class="w-24 h-24"></i>
+                </div>
+                <h5 class="text-xl font-bold text-white mb-2">
+                  Algorithmic Asset Management
+                </h5>
+                <p class="text-slate-400 text-sm max-w-2xl leading-relaxed">
+                  Proprietary financial modeling and automated liquidity
+                  engines. We deploy capital allocation strategies to fuel
+                  ecosystem growth and ensure R&D independence without external
+                  reliance.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              class="flex items-center gap-4 mb-8 border-b border-energy/20 pb-4"
+            >
+              <div class="p-2 bg-energy/10 rounded text-energy">
+                <i data-lucide="zap" class="w-6 h-6"></i>
+              </div>
+              <h4 class="text-2xl font-bold text-white">
+                MedCore <span class="text-energy">Energy</span>
+              </h4>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div
+                class="card-hover p-6 rounded-xl bg-white/5 border border-white/10"
+              >
+                <h5 class="text-lg font-bold text-white mb-2">SmartHVAC.ai</h5>
+                <p class="text-slate-400 text-sm">
+                  IoT sensor arrays (ESP32) for predictive maintenance and
+                  energy optimization.
+                </p>
+              </div>
+              <div
+                class="card-hover p-6 rounded-xl bg-white/5 border border-white/10"
+              >
+                <h5 class="text-lg font-bold text-white mb-2">
+                  Eco-Infrastructure
+                </h5>
+                <p class="text-slate-400 text-sm">
+                  Developing sustainable smart-home integrations for
+                  aging-in-place.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              class="flex items-center gap-4 mb-8 border-b border-lab/20 pb-4"
+            >
+              <div class="p-2 bg-lab/10 rounded text-lab">
+                <i data-lucide="flask-conical" class="w-6 h-6"></i>
+              </div>
+              <h4 class="text-2xl font-bold text-white">
+                MedCore <span class="text-lab">Labs</span>
+              </h4>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div
+                class="card-hover p-6 rounded-xl bg-white/5 border border-white/10"
+              >
+                <div
+                  class="w-12 h-12 bg-lab/20 rounded-lg flex items-center justify-center text-lab mb-4"
+                >
+                  <i data-lucide="bot" class="w-6 h-6"></i>
+                </div>
+                <h5 class="text-lg font-bold text-white mb-2">
+                  Autonomous AI Agents
+                </h5>
+                <p class="text-slate-400 text-sm">
+                  Engineering next-gen intelligent agents capable of complex
+                  decision-making and workflow automation.
+                </p>
+              </div>
+              <div
+                class="card-hover p-6 rounded-xl bg-white/5 border border-white/10"
+              >
+                <div
+                  class="w-12 h-12 bg-lab/20 rounded-lg flex items-center justify-center text-lab mb-4"
+                >
+                  <i data-lucide="cpu" class="w-6 h-6"></i>
+                </div>
+                <h5 class="text-lg font-bold text-white mb-2">
+                  Advanced Robotics & IoT
+                </h5>
+                <p class="text-slate-400 text-sm">
+                  Developing autonomous hardware systems and sensor networks for
+                  real-world automation and data collection.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-black text-slate-400 py-16 border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <div class="flex items-center justify-center gap-3 mb-6">
+          <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
+            <path
+              d="M25 5 L45 15 V35 L25 45 L5 35 V15 L25 5Z"
+              class="logo-fill"
+            />
+            <path
+              d="M70 5 L90 15 V35 L70 45 L50 35 V15 L70 5Z"
+              class="logo-fill"
+            />
+            <path
+              d="M47.5 50 L67.5 60 V80 L47.5 90 L27.5 80 V60 L47.5 50Z"
+              class="logo-fill"
+            />
+          </svg>
+          <span class="text-xl font-bold text-white">MedCore Technology</span>
+        </div>
+        <p class="text-xs text-slate-600">
+          &copy; 2025 MedCore Technology. All Rights Reserved. <br />
+          Constructed in Washington DC, USA.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      lucide.createIcons();
+
+      function openModal() {
+        document.getElementById("investorModal").classList.remove("hidden");
+        document.getElementById("investorForm").classList.remove("hidden");
+        document.getElementById("formSuccess").classList.add("hidden");
+      }
+
+      function closeModal() {
+        document.getElementById("investorModal").classList.add("hidden");
+      }
+
+      document
+        .getElementById("investorModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+
+      var form = document.getElementById("investorForm");
+
+      async function handleSubmit(event) {
+        event.preventDefault();
+        var status = document.getElementById("formSuccess");
+        var data = new FormData(event.target);
+        var btn = document.getElementById("submitBtn");
+        var originalText = btn.innerHTML;
+        btn.innerHTML = "Sending...";
+        btn.disabled = true;
+
+        fetch(event.target.action, {
+          method: form.method,
+          body: data,
+          headers: {
+            Accept: "application/json",
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              form.classList.add("hidden");
+              status.classList.remove("hidden");
+              form.reset();
+              lucide.createIcons();
+            } else {
+              response.json().then((data) => {
+                if (Object.hasOwn(data, "errors")) {
+                  alert(
+                    data["errors"].map((error) => error["message"]).join(", ")
+                  );
+                } else {
+                  alert("Oops! There was a problem submitting your form");
+                }
+              });
+            }
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+          })
+          .catch((error) => {
+            alert("Oops! There was a problem submitting your form");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+          });
+      }
+
+      form.addEventListener("submit", handleSubmit);
+    </script>
+  </body>
+</html>
