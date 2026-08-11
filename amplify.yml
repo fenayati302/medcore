@@ -1,0 +1,15 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "MedCore landing — static site, no build step"
+    build:
+      commands:
+        - test -f medcore/index.html
+  artifacts:
+    baseDirectory: medcore
+    files:
+      - '**/*'
+  cache:
+    paths: []
