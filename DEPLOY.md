@@ -62,6 +62,10 @@ ALLOWED_ORIGINS=https://medcore.tech,https://www.medcore.tech,https://sage.medco
 AIREALTOR_APP_URL=https://sage.medcore.tech
 MELIA_APP_URL=https://melia.medcore.tech
 ELEVENLABS_MELIA_AGENT_ID=   # optional; falls back to ELEVENLABS_AIREALTOR_AGENT_ID
+
+# Email (SES on EC2 — same backend as HearthMeet)
+# SES_FROM_EMAIL=hello@hearthmeet.com
+# ADMIN_NOTIFY_EMAIL=you@example.com   # landing page team form
 ```
 
 Restart the backend after updating `.env`.
